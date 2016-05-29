@@ -11,6 +11,7 @@ import {getRepo} from 'globals';
     let dn = this.props.params.dn; // document name
     let ni = this.props.params.ni; // node id
     var repo = getRepo(dn);
+    window._repo = repo;
     return (
       <div>
         {

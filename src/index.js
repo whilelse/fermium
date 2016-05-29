@@ -11,7 +11,7 @@ import {DocumentRepo} from 'ui/DocumentRepo';
 ReactDOM.render((
   <Router history={browserHistory}>
     <Redirect from="/" to="/doc/core/node/9" />
-    <Route path="/doc/:docname/node/:ni" component={DocumentRepo} />
+    <Route path="/doc/:dn/node/:ni" component={DocumentRepo} />
   </Router>
 ), document.getElementById('root'));
 
