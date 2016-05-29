@@ -26,7 +26,7 @@ export class Node {
 
   @computed get attrs() {
     return prelude.Obj.keys(this.rawAttrs).map(
-      (ati) => new Attr(repo, ati, this.rawAttrs[ati])
+      (ati) => new Attr(this.repo, ati, this.rawAttrs[ati])
     )
   }
 
