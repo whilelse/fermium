@@ -6,7 +6,7 @@ Ref  = require './Ref'  .Ref
 mobx = require 'mobx'
 
 module.exports = class Repo
-  ({@document}) ->
+  (@dn) ->
     @nodes = {}
     @refs  = {}
     @raw   = null
@@ -15,7 +15,7 @@ module.exports = class Repo
   load: ->
     # TODO: move loading out of here, inject loader or rawRepo instead
     rawRepoLoader = require 'livescript!raw-repo-loader.ls'
-    rawRepoLoader(@document).done (rawRepo) ~>
+    rawRepoLoader(@dn).done (rawRepo) ~>
       @raw = rawRepo
       @loaded = true
 

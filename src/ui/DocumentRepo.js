@@ -3,16 +3,19 @@ import React, { Component } from 'react';
 import mbox, {autorun,computed} from "mobx";
 import {observer} from "mobx-react";
 
-import {Node} from 'ui/Node'
+import {Node} from 'ui/Node';
+import {getRepo} from 'globals';
 
-@observer export class App extends Component {
+@observer export class DocumentRepo extends Component {
   render() {
-    let repo = this.props.repo;
+    let dn = this.props.params.dn; // document name
+    let ni = this.props.params.ni; // node id
+    var repo = getRepo(dn);
     return (
       <div>
         {
           repo.loaded ? (
-            <Node node={repo.node(9)} />
+            <Node node={repo.node(ni)} />
           ) : (
             "Loading..."
           )
@@ -21,3 +24,4 @@ import {Node} from 'ui/Node'
     )
   }
 }
+
