@@ -48,6 +48,11 @@ class Attr {
   }
 
   @computed get name() {
-    return this.repo.node(this.ati).name
+    return this.type.name
   }
+
+  @computed get type() {
+    return this.repo.node(this.ati)
+  }
+
 }

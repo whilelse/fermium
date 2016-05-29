@@ -10,11 +10,14 @@ import {browserHistory} from 'react-router'
     return (
       <div className="v-node">
         <div className="v-node-name">{ node.name }</div>
-        <div className="v-node-type">{ node.type.name }</div>
+        <div className="v-node-type">
+          <NodeLink node={node.type} type="name" />
+        </div>
         {
           node.attrs.map((attr) => (
             <div className="v-node-attr" key={attr.ati}>
-              <span>{ attr.name }</span>:
+              <NodeLink node={attr.type} type="name" />
+              {": "}
               <span>{ attr.value }</span>
             </div>
           ))
@@ -22,7 +25,8 @@ import {browserHistory} from 'react-router'
         {
           node.refs.map((ref) => (
             <div className="v-node-ref" key={ref.ri}>
-              <span>{ ref.type.name }</span>:
+              <NodeLink node={ref.type} type="name" />
+              {": "}
               <NodeLink node={ref.target} />
             </div>
           ))
@@ -37,8 +41,17 @@ import {browserHistory} from 'react-router'
   render () {
     const node = this.props.node;
     const path = '/doc/' + node.repo.dn + '/node/' + node.ni;
+    let label = "";
+    switch (this.props.type) {
+      case "name": label += node.name; break;
+      default: label += (node.name || '') + "<" + node.type.name + ">";
+    }
+    const linkStyle = {
+      textDecoration: 'none',
+      color: 'black'
+    }
     return (
-      <a href={path} onClick={this.handleClick}>{ node.ni }</a>
+      <a href={path} style={linkStyle} onClick={this.handleClick}>{ label }</a>
     );
   }
   handleClick (event) {
