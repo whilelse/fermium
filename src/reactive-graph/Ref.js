@@ -22,4 +22,12 @@ export class Ref {
     return this.repo.node(this.rti)
   }
 
+  @computed get source() {
+    return this.repo.node(this.sni)
+  }
+
+  @computed get target() {
+    return this.repo.node(this.gni)
+  }
+
 }
