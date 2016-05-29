@@ -7,9 +7,11 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 import rawRepoLoader from 'livescript!./raw-repo-loader.ls'
 import Repo from 'livescript!./reactive-graph/Repo.ls'
+import mbox, {autorun,computed} from "mobx";
 
-var repo = new Repo('core')
+var repo = new Repo('core');
+window.repo = repo;
 repo.load().done(function() {
-  console.log("Node 1 ", repo.node('1'));
+  autorun(() => console.log("Node 2 type name: ", repo.node('2').type.name));
 });
 

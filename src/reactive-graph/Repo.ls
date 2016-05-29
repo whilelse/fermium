@@ -1,7 +1,9 @@
 {map,each,concat,join,elem-index,find,filter} = prelude = require('prelude-ls')
 {promise} = u = require 'livescript!utils.ls'
-Node = require 'livescript!./Node.ls'
-Ref  = require 'livescript!./Ref.ls'
+Node = require './Node' .Node
+Ref  = require './Ref'  .Ref
+
+mobx = require 'mobx'
 
 module.exports = class Repo
   ({@document}) ->
@@ -60,11 +62,13 @@ module.exports = class Repo
       else
         throw "Node #{ni} not found in raw @"
     {nti,name,attrs,refs,inrefs} = node
-    new Node(this,ni,nti,name,attrs,refs,inrefs)
+    mobx.extras.allowStateChanges true, ~>
+      new Node(this,ni,nti,name,attrs,refs,inrefs)
 
   _instantiate-ref: (ri) ->
     throw "ri missing" if ! ri
     #console.log "Ref #{ri} INSTANTIATE"
     {rti,sni,gni,dep} = @raw.refs[ri] or throw "Ref #{ri} not found in raw @"
-    new Ref(this,ri,sni,rti,gni,dep)
+    mobx.extras.allowStateChanges true, ~>
+      new Ref(this,ri,sni,rti,gni,dep)
 
