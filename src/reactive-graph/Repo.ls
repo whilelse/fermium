@@ -10,12 +10,14 @@ module.exports = class Repo
     @nodes = {}
     @refs  = {}
     @raw   = null
+    mobx.extendObservable(@, loaded: false)
 
   load: ->
     # TODO: move loading out of here, inject loader or rawRepo instead
     rawRepoLoader = require 'livescript!raw-repo-loader.ls'
     rawRepoLoader(@document).done (rawRepo) ~>
       @raw = rawRepo
+      @loaded = true
 
   node: (ni) ->
     return null if ! ni
