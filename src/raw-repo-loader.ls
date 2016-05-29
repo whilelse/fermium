@@ -1,5 +1,5 @@
 $ = require 'jquery'
-{promise} = u = require 'livescript!./utils.ls'
+{promise} = u = require 'livescript!utils.ls'
 
 console.log "u", u
 
