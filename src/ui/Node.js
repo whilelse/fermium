@@ -5,18 +5,27 @@ import {observer} from "mobx-react";
 import {browserHistory} from 'react-router'
 
 @observer export class Node extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { activeIndex: 0 };
+    this._elements = ['type'];
+    let node = this.props.node;
+    node.attrs.map((attr) => this._elements.push('a:' + attr.ati))
+    node.refs.map((ref) => this._elements.push('r:' + ref.ri))
+  }
   render() {
     let node = this.props.node;
+    let activeChild = this._elements[this.state.activeIndex];
     return (
-      <div className="v-node">
+      <div className="v-node" ref={(c) => console.log("ref-main", c)}>
         <div className="v-node-name">{ node.name }</div>
         <div className="v-node-type">
-          <NodeLink node={node.type} type="name" />
+          <NodeLink node={node.type} type="name" active={activeChild == 'type'} />
         </div>
         {
           node.attrs.map((attr) => (
             <div className="v-node-attr" key={attr.ati}>
-              <NodeLink node={attr.type} type="name" />
+              <NodeLink node={attr.type} type="name" active={activeChild == 'a:' + attr.ati} />
               {": "}
               <span>{ attr.value }</span>
             </div>
@@ -27,12 +36,17 @@ import {browserHistory} from 'react-router'
             <div className="v-node-ref" key={ref.ri}>
               <NodeLink node={ref.type} type="name" />
               {": "}
-              <NodeLink node={ref.target} />
+              <NodeLink node={ref.target} active={activeChild == 'r:' + ref.ri} />
             </div>
           ))
         }
+        <button onClick={this.handleMovement.bind(this, 1)}>Down</button>
+        <button onClick={this.handleMovement.bind(this, -1)}>Up</button>
       </div>
     )
+  }
+  handleMovement (dir) {
+    this.setState({ activeIndex: this.state.activeIndex + dir });
   }
 }
 
@@ -46,10 +60,11 @@ import {browserHistory} from 'react-router'
       case "name": label += node.name; break;
       default: label += (node.name || '') + "<" + node.type.name + ">";
     }
-    const linkStyle = {
+    var linkStyle = {
       textDecoration: 'none',
       color: 'black'
     }
+    if (this.props.active) linkStyle.backgroundColor = 'yellow';
     return (
       <a href={path} style={linkStyle} onClick={this.handleClick}>{ label }</a>
     );
