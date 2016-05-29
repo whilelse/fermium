@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
+    'webpack-dev-server/client?http://app.whilelse.local',
     'webpack/hot/only-dev-server',
     './src/index'
   ],
@@ -20,6 +20,10 @@ module.exports = {
     loaders: [{
       test: /\.js$/,
       loaders: ['react-hot', 'babel'],
+      include: path.join(__dirname, 'src')
+    }, {
+      test: /\/ls$/,
+      loaders: ['livescript'],
       include: path.join(__dirname, 'src')
     }]
   }
